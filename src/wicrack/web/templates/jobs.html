@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Jobs — WiCrackAgent{% endblock %}
+{% block content %}
+<div class="cards">
+  <div class="card"><div class="lbl">Worker</div>
+    <div class="val {{ 'warn' if snap.stopped else '' }}" id="v-worker">
+      <span class="live-dot"></span>{{ 'STOPPED' if snap.stopped else 'RUNNING' }}</div></div>
+  <div class="card"><div class="lbl">Queue</div><div class="val" id="v-queue">{{ snap.queue }}</div></div>
+  <div class="card"><div class="lbl">Uploaded captures</div><div class="val">{{ uploaded }}</div></div>
+  <div class="card"><div class="lbl">Cracked</div><div class="val" id="v-cracked">{{ snap.cracked }}</div></div>
+  <div class="card"><div class="lbl">Failed</div><div class="val warn" id="v-failed">{{ snap.failed }}</div></div>
+</div>
+
+<div class="panel" style="display:flex;gap:12px;flex-wrap:wrap">
+  <form method="post" action="/jobs/start" style="display:inline">
+    <button class="btn">▶ START — queue every uploaded capture</button>
+  </form>
+  <form method="post" action="/jobs/stop" style="display:inline">
+    <button class="btn danger">■ STOP — kill current attack, cancel queue</button>
+  </form>
+</div>
+
+<h2>Recent runs</h2>
+<div class="panel">
+{% if runs %}
+<table>
+  <tr><th>File</th><th>Started</th><th>Finished</th><th>Result</th></tr>
+  {% for r in runs %}
+  <tr><td>{{ r.file }}</td><td>{{ r.started }}</td><td>{{ r.finished }}</td>
+      <td>{{ r.result }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}<div class="empty">No runs yet — upload captures, then press START.</div>{% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>startStatusPolling(["v-worker","v-queue","v-cracked","v-failed"]);</script>
+{% endblock %}

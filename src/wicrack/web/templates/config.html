@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Settings — WiCrackAgent{% endblock %}
+{% block content %}
+<h2>Settings</h2>
+{% if message %}<div class="flash">{{ message }}</div>{% endif %}
+<form method="post">
+<div class="grid2">
+<div class="panel">
+  <h2 style="margin-top:0">Wordlists &amp; rules</h2>
+  <label>Wordlists (comma-separated paths)</label>
+  <input type="text" name="wordlists" value="{{ s.wordlists | join(', ') }}">
+  <label>best64 rules path</label>
+  <input type="text" name="rules" value="{{ s.rules }}">
+  <label>OneRuleToRuleThemAll path</label>
+  <input type="text" name="rules_ortra" value="{{ s.rules_ortra }}">
+  <h2>Performance</h2>
+  <label>Workload (1 = low … 4 = nightmare)</label>
+  <select name="workload">
+    {% for i in [1,2,3,4] %}
+    <option value="{{ i }}" {{ 'selected' if s.workload == i else '' }}>{{ i }}</option>
+    {% endfor %}
+  </select>
+  <label class="inline"><input class="chk" type="checkbox" name="optimized"
+    {{ 'checked' if s.optimized else '' }}>Optimized kernels (-O)</label>
+  <label>Temperature abort (°C)</label>
+  <input type="number" name="temp_abort" value="{{ s.temp_abort }}">
+  <label>Auto-approve heavy stages under (hours)</label>
+  <input type="number" step="0.5" name="auto_ok_hours" value="{{ s.auto_ok_hours }}">
+  <label>Heavy window (e.g. 22:00-06:00, empty = always)</label>
+  <input type="text" name="heavy_window" value="{{ s.heavy_window or '' }}">
+</div>
+<div class="panel">
+  <h2 style="margin-top:0">Attack stages</h2>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_ortra"
+    {{ 'checked' if s.enable_ortra else '' }}>A2 — OneRuleToRuleThemAll (heavy)</label>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_kbwalks"
+    {{ 'checked' if s.enable_kbwalks else '' }}>F — Keyboard walks</label>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_mangler"
+    {{ 'checked' if s.enable_mangler else '' }}>G — Mangler mutations</label>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_mask_learning"
+    {{ 'checked' if s.enable_mask_learning else '' }}>H — Mask learning (adaptive)</label>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_combinator"
+    {{ 'checked' if s.enable_combinator else '' }}>E — Combinator / hybrid / phrases</label>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_three_word"
+    {{ 'checked' if s.enable_three_word else '' }}>E3b — Three-word phrases (very heavy)</label>
+  <label class="inline"><input class="chk" type="checkbox" name="enable_brain"
+    {{ 'checked' if s.enable_brain else '' }}>hashcat brain (candidate dedup)</label>
+
+  <h2>Web behavior</h2>
+  <label class="inline"><input class="chk" type="checkbox" name="web_auto_approve_heavy"
+    {{ 'checked' if s.web_auto_approve_heavy else '' }}>Auto-approve heavy stages from the console</label>
+
+  <h2>Notifications</h2>
+  <label>Telegram bot token</label>
+  <input type="text" name="telegram_token" value="{{ s.telegram_token }}">
+  <label>Telegram chat id</label>
+  <input type="text" name="telegram_chat_id" value="{{ s.telegram_chat_id }}">
+  <label>Discord webhook URL</label>
+  <input type="text" name="discord_webhook" value="{{ s.discord_webhook }}">
+
+  <h2>Target filter</h2>
+  <label>ESSIDs (comma-separated)</label>
+  <input type="text" name="filter_essids" value="{{ s.filter_essids | join(', ') }}">
+  <label>BSSIDs (comma-separated)</label>
+  <input type="text" name="filter_bssids" value="{{ s.filter_bssids | join(', ') }}">
+  <label>Mode</label>
+  <select name="filter_mode">
+    <option {{ 'selected' if s.filter_mode == 'include' else '' }}>include</option>
+    <option {{ 'selected' if s.filter_mode == 'exclude' else '' }}>exclude</option>
+  </select>
+
+  <h2>Security</h2>
+  <label>New console password (empty = keep current)</label>
+  <input type="password" name="new_password" autocomplete="new-password">
+</div>
+</div>
+<p><button class="btn">Save settings</button></p>
+</form>
+{% endblock %}

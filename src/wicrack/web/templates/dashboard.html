@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — WiCrackAgent{% endblock %}
+{% block content %}
+<div class="cards" id="cards">
+  <div class="card"><div class="lbl">Worker</div>
+    <div class="val {{ 'warn' if snap.stopped else '' }}" id="v-worker">
+      <span class="live-dot"></span>{{ 'STOPPED' if snap.stopped else 'RUNNING' }}</div></div>
+  <div class="card"><div class="lbl">Queue</div><div class="val" id="v-queue">{{ snap.queue }}</div></div>
+  <div class="card"><div class="lbl">Current file</div><div class="val" id="v-file">{{ snap.current_file }}</div></div>
+  <div class="card"><div class="lbl">Stage</div><div class="val warn" id="v-stage">{{ snap.current_stage }}</div></div>
+  <div class="card"><div class="lbl">Speed</div><div class="val" id="v-speed">{{ snap.speed }}</div></div>
+  <div class="card"><div class="lbl">Progress</div><div class="val" id="v-progress">{{ snap.progress }}</div></div>
+  <div class="card"><div class="lbl">Cracked</div><div class="val" id="v-cracked">{{ snap.cracked }}</div></div>
+  <div class="card"><div class="lbl">Failed</div><div class="val warn" id="v-failed">{{ snap.failed }}</div></div>
+</div>
+
+<div class="chart-box panel">
+  <div class="lbl" style="color:var(--muted);font-size:.75em;text-transform:uppercase">
+    Live speed (WPA keys/s)</div>
+  <canvas id="speedChart" height="90"></canvas>
+</div>
+
+<h2>Recent cracks</h2>
+<div class="panel">
+{% if recent %}
+<table>
+  <tr><th>Time</th><th>ESSID</th><th>Key</th><th>Len</th><th>Stage</th></tr>
+  {% for r in recent %}
+  <tr><td>{{ r.ts }}</td><td>{{ r.essid }}</td>
+      <td class="key">{{ r.key }}</td><td>{{ r.key_len }}</td><td>{{ r.stage }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}<div class="empty">Nothing cracked yet — upload a capture and start a job.</div>{% endif %}
+</div>
+{% endblock %}
+{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>{% endblock %}
+{% block scripts %}
+<script>
+window.WICRACK = {
+  wsEnabled: {{ 'true' if ws_enabled else 'false' }},
+  initialSpeed: {{ snap.speed | tojson }},
+  hasChart: typeof Chart !== 'undefined'
+};
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

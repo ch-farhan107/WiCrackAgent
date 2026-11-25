@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: WiCrackAgent REST API
+  version: "1.0.0"
+  description: >
+    Automation endpoints for the WiCrackAgent console. All routes require the
+    console session cookie (obtain via POST /login). Authorized use only.
+servers:
+  - url: http://localhost:5000
+paths:
+  /api/v1/status:
+    get:
+      summary: Live worker status snapshot
+      responses:
+        "200":
+          description: Current queue, stage, speed, progress and counters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current_file: { type: string }
+                  current_stage: { type: string }
+                  speed: { type: string }
+                  progress: { type: string }
+                  cracked: { type: integer }
+                  failed: { type: integer }
+                  queue: { type: integer }
+                  stopped: { type: boolean }
+                  engine: { type: string }
+  /api/v1/jobs:
+    get:
+      summary: Queue info + recent run history
+      responses:
+        "200": { description: Snapshot and last 25 runs }
+    post:
+      summary: Control the job queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [start, stop]
+      responses:
+        "200": { description: Action executed }
+        "400": { description: Unknown action or no captures uploaded }
+  /api/v1/results:
+    get:
+      summary: All recovered credentials
+      responses:
+        "200": { description: Results array }
+  /api/v1/results.csv:
+    get:
+      summary: Results exported as CSV text
+      responses:
+        "200": { description: CSV content }

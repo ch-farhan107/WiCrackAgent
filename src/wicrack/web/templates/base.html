@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}WiCrackAgent{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+<nav class="topnav">
+  <a class="brand" href="/">⚡ WiCrackAgent</a>
+  {% for href, label in [('/', 'Dashboard'), ('/upload', 'Upload'),
+                          ('/config', 'Settings'), ('/jobs', 'Jobs'),
+                          ('/results', 'Results')] %}
+  <a href="{{ href }}" class="{{ 'active' if path == href else '' }}">{{ label }}</a>
+  {% endfor %}
+  <span class="nav-right">
+    <span class="engine-pill">{{ engine }}</span>
+    <a href="/logout" class="muted">logout</a>
+  </span>
+</nav>
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer>WiCrackAgent v{{ version }} — automated wireless security assessment ·
+<strong>AUTHORIZED USE ONLY</strong></footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>

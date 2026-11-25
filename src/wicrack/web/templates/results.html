@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Results — WiCrackAgent{% endblock %}
+{% block content %}
+<h2>Recovered credentials ({{ rows | length }})</h2>
+<div class="panel">
+{% if rows %}
+<table>
+  <tr><th>Time</th><th>ESSID</th><th>Key</th><th>Len</th><th>Space</th><th>Stage</th></tr>
+  {% for r in rows %}
+  <tr><td>{{ r.ts }}</td><td>{{ r.essid }}</td><td class="key">{{ r.key }}</td>
+      <td>{{ r.key_len }}</td><td>{{ 'YES' if r.has_space else '—' }}</td>
+      <td>{{ r.stage }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}<div class="empty">No results yet.</div>{% endif %}
+</div>
+<div class="panel" style="display:flex;gap:12px;flex-wrap:wrap">
+  <a class="btn" href="/results/download/csv">⬇ Download CSV</a>
+  <a class="btn ghost" href="/results/download/txt">⬇ TXT report</a>
+  <a class="btn ghost" href="/results/download/report">⬇ Client HTML report</a>
+</div>
+{% endblock %}

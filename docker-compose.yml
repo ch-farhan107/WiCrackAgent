@@ -1,0 +1,19 @@
+services:
+  wicrack:
+    build: .
+    image: wicrack:latest
+    container_name: wicrack
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data          # results, potfile, vault, logs
+      - ./wifi_captures:/app/wifi_captures
+    restart: unless-stopped
+    # GPU passthrough (NVIDIA) — requires nvidia-container-toolkit:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]

@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.venv/
+venv/
+*.whl
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+site/
+
+# Runtime data (captures, results, keys — NEVER commit these)
+data/
+wifi_captures/
+uploads/
+*.cap
+*.pcap
+*.pcapng
+*.hc22000
+*.john
+cracked_passwords.txt
+cracked_export.csv
+web_config.json
+seeds*.txt
+kb_walks.txt
+space_rules.rule
+worker*_rules.rule
+essid_target.txt
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store

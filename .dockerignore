@@ -1,0 +1,24 @@
+# Build context exclusions
+.git
+.gitignore
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+uploads/
+*.cap
+*.pcap
+*.pcapng
+*.hc22000
+*.db
+agent.log
+web_config.json
+.env
+docs/site/
+assets/social-preview.png

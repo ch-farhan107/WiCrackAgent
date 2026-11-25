@@ -1,0 +1,49 @@
+site_name: WiCrackAgent
+site_description: >-
+  Automated wireless security assessment framework — GPU+CPU dual engine,
+  live web console, client-ready pentest reports. Authorized use only.
+site_author: ch-farhan107
+site_url: https://ch-farhan107.github.io/WiCrackAgent/
+repo_url: https://github.com/ch-farhan107/WiCrackAgent
+repo_name: ch-farhan107/WiCrackAgent
+copyright: MIT License — authorized use only
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: teal
+    - scheme: slate
+      primary: deep purple
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - search.highlight
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Quickstart: usage/quickstart.md
+      - Web console: usage/web.md
+      - CLI reference: usage/cli.md
+  - Internals:
+      - Architecture: architecture.md
+      - Cracking engines: usage/engines.md
+      - REST API: usage/api.md
+      - Benchmarks: benchmarks.md
+  - Ethics & law: ethics.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - tables
